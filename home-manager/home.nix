@@ -16,6 +16,9 @@
   # value.
   home.stateVersion = "23.11"; # Please read the comment before changing.
 
+  services.gpg-agent = {
+    enable = false;
+  };
 
 
   # Alacritty terminal emulator (now managed by Home Manager)
@@ -35,5 +38,44 @@
     };
   };
 
+  programs.git = {
+    enable = true;
+    userName = "abhishek-io";
+    userEmail = "myselfabhi.327@gmail.com";
+    extraConfig = {
+      init.defaultBranch = "main";
+      core.editor = "nvim";
+    };
+    aliases = {
+      co = "checkout";
+      ci = "commit";
+      st = "status";
+      br = "branch";
+      hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short";
+    };
+  };
+
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      id = 0;
+      name = "default";
+      isDefault = true;
+      settings = {
+        "browser.startup.homepage.url" = "https://google.com";
+        "browser.search.defaultenginename" = "Google";
+        "browser.compactmode.show" = true;
+      };
+      extensions = [
+        "ublock0@raymondhill.net" # uBlock Origin
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" # Dark Reader
+      ];
+    };
+  };
+
   # Other programs and configurations for the user can go here.
+
+  home.packages = with pkgs; [
+    vlc
+  ];
 }
