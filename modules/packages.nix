@@ -23,6 +23,6 @@
     unzip
     zip
     alacritty
-    google-antigravity # Google Antigravity IDE
+    antigravity # Google Antigravity IDE
   ];
 }
