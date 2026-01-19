@@ -1,10 +1,8 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
-  home.username = "abhishek";
-  home.homeDirectory = "/home/abhishek";
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -23,24 +21,27 @@
 
   programs.git = {
     enable = true;
-    userName = "abhishek-io";
-    userEmail = "myselfabhi.327@gmail.com";
-    extraConfig = {
+    settings = {
+      user = {
+        name = "abhishek-io";
+        email = "myselfabhi.327@gmail.com";
+      };
       init.defaultBranch = "main";
       core.editor = "nvim";
-    };
-    aliases = {
-      co = "checkout";
-      ci = "commit";
-      st = "status";
-      br = "branch";
-      hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short";
+      alias = {
+        co = "checkout";
+        ci = "commit";
+        st = "status";
+        br = "branch";
+        hist = "log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short";
+      };
     };
   };
 
   programs.firefox = {
     enable = true;
     profiles.default = {
+      path = "gsa9otdn.default";
       id = 0;
       name = "default";
       isDefault = true;
@@ -49,10 +50,15 @@
         "browser.search.defaultenginename" = "Google";
         "browser.compactmode.show" = true;
       };
-      extensions = [
-        "ublock0@raymondhill.net" # uBlock Origin
-        "{446900e4-71c2-419f-a6a7-df9c091e268b}" # Dark Reader
+      extensions = with inputs.firefox-addons.packages.${pkgs.system}; [
+        ublock-origin
+        darkreader
       ];
+    };
+    policies = {
+      "Preferences" = {
+        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
+      };
     };
   };
 
@@ -60,5 +66,50 @@
 
   home.packages = with pkgs; [
     vlc
+    loupe
+    alacritty
   ];
+
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      font = {
+        normal = {
+          family = "JetBrains Mono";
+          style = "Regular";
+        };
+        bold = {
+          family = "JetBrains Mono";
+          style = "Bold";
+        };
+        italic = {
+          family = "JetBrains Mono";
+          style = "Italic";
+        };
+        bold_italic = {
+          family = "JetBrains Mono";
+          style = "Bold Italic";
+        };
+        size = 11;
+      };
+      colors = {
+        primary = {
+          background = "#000000";
+          foreground = "#ffffff";
+        };
+      };
+      window = {
+        opacity = 0.8;
+      };
+    };
+  };
+
+  xdg.mimeApps.defaultApplications = {
+    "image/jpeg" = "org.gnome.Loupe.desktop";
+    "image/png" = "org.gnome.Loupe.desktop";
+    "image/gif" = "org.gnome.Loupe.desktop";
+    "video/mp4" = "vlc.desktop";
+    "video/webm" = "vlc.desktop";
+    "video/x-matroska" = "vlc.desktop";
+  };
 }

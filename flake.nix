@@ -5,8 +5,11 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     antigravity-nix.url = "github:jacopone/antigravity-nix";
     home-manager = {
-      url = "github:nix-community/home-manager/release-23.11";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
     };
   };
 
@@ -18,8 +21,7 @@
         specialArgs = { inherit inputs; };
         modules = [
           ./hosts/nixos-ap/configuration.nix
-          # You can add other system-level modules here if you like
-          # You can add other system-level modules here if you like
+          inputs.home-manager.nixosModules.default
         ];
       };
       # Add more NixOS configurations for other machines here, e.g.:

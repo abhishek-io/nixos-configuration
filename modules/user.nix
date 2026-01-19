@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   # Define a user account.
@@ -12,5 +12,8 @@
     # sudo passwd <new_username>
   };
 
+  home-manager.backupFileExtension = "bak";
+  home-manager.extraSpecialArgs = { inherit inputs; };
+  home-manager.users.abhishek = import ../home-manager/home.nix;
 
 }

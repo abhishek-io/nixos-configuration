@@ -2,8 +2,8 @@
 
 {
   # GNOME Desktop Environment
-  services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm.enable = true; # Use GDM for GNOME
+  services.desktopManager.gnome.enable = true;
+  services.displayManager.gdm.enable = true; # Use GDM for GNOME
   
   environment.gnome.excludePackages = with pkgs; [
     epiphany # Web browser
@@ -41,6 +41,18 @@
     gnome-system-monitor # System Monitor
   # gnome-screenshot # Screenshot Tool
     gnome-characters # Character Map
+    gnome-clocks # World clocks
+    gnome-color-manager # Color profile manager
+    gnome-remote-desktop # Remote desktop server
+    gnome-user-share # File sharing
+    gnome-logs # Log viewer
+    gnome-user-docs # User documentation
+    gnome-browser-connector # Browser integration
+    gnome-connections # Remote desktop client
+  #  gnome-console # Simple terminal
+    gnome-backgrounds # Default backgrounds
+    gnome-initial-setup # Initial setup
+  # gnome-bluetooth # Bluetooth support
   ];
 
   # Fonts
@@ -53,15 +65,6 @@
   environment.systemPackages = with pkgs; [
     gnomeExtensions.dash-to-panel
     gnome-tweaks
+    gnomeExtensions.applications-menu
   ];
-
-  # Firefox
-  programs.firefox = {
-    enable = true;
-    policies = {
-      "Preferences" = {
-        "extensions.activeThemeID" = "firefox-compact-dark@mozilla.org";
-      };
-    };
-  };
 }
