@@ -14,15 +14,10 @@
     wget
     curl
     neovim
-    tmux
     htop
-    ncdu
     tree
-    jq
-    yq
     unzip
     zip
-    alacritty
     antigravity # Google Antigravity IDE
   ];
 }

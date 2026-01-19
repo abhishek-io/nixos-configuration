@@ -30,7 +30,7 @@
     shotwell # Photo manager
     simple-scan # Document scanner
     tali # Game
-    gnome-terminal # Terminal
+  #  gnome-terminal # Terminal
   # nautilus # Files
     gnome-boxes # Virtual Machines
     gnome-disk-utility # Disks

@@ -21,23 +21,6 @@
   };
 
 
-  # Alacritty terminal emulator (now managed by Home Manager)
-  programs.alacritty = {
-    enable = true;
-    settings = {
-      font = {
-        normal = {
-          family = "JetBrains Mono";
-          style = "Regular";
-        };
-        size = 13;
-      };
-      window = {
-        opacity = 0.85;
-      };
-    };
-  };
-
   programs.git = {
     enable = true;
     userName = "abhishek-io";
