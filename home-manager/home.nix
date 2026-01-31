@@ -68,6 +68,7 @@
     vlc
     loupe
     alacritty
+    tmux
   ];
 
   programs.alacritty = {
@@ -90,7 +91,7 @@
           family = "JetBrains Mono";
           style = "Bold Italic";
         };
-        size = 11;
+        size = 11.0;
       };
       colors = {
         primary = {
@@ -101,8 +102,25 @@
       window = {
         opacity = 0.8;
       };
+      terminal = {
+        shell = {
+          program = "${pkgs.tmux}/bin/tmux";
+          args = [ "new-session" "-A" "-s" "main" ];
+        };
+      };
     };
   };
+
+  programs.tmux = {
+    enable = true;
+    keyMode = "vi";
+    prefix = "C-a";
+    extraConfig = ''
+      bind -n C-t new-window
+      bind -n C-w kill-pane
+    '';
+  };
+
 
   xdg.mimeApps.defaultApplications = {
     "image/jpeg" = "org.gnome.Loupe.desktop";

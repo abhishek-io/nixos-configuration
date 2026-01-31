@@ -1,0 +1,67 @@
+ Okay, you'd like to use Tmux for tab management within Alacritty. Here's how you can set it up in your NixOS configuration:
+
+  1. Add Tmux to your NixOS configuration:
+
+  You'll need to modify your home.nix or configuration.nix file. If you're managing Alacritty through home-manager, you'd typically add this to your home.nix.
+
+    1 # Example for home.nix or configuration.nix
+    2
+    3 { config, pkgs, ... }:
+    4
+    5 {
+    6   # Ensure tmux is installed
+    7   home.packages = with pkgs; [
+    8     tmux
+    9   ];
+   10
+   11   # Configure Alacritty to launch tmux
+   12   programs.alacritty = {
+   13     enable = true;
+   14     settings = {
+   15       terminal.shell = {
+   16         program = "${pkgs.tmux}/bin/tmux";
+   17         args = [ "new-session" "-A" "-D" "-s" "main" ];
+   18       };
+   19     };
+   20   };
+   21
+   22   # You might also want some basic tmux configuration
+   23   programs.tmux = {
+   24     enable = true;
+   25     # Optional: Add your custom tmux configuration here
+   26     # extraConfig = ''
+   27     #   set -g mouse on
+   28     # '';
+   29   };
+   30 }
+
+  Explanation of the `terminal.shell` arguments:
+
+   * "${pkgs.tmux}/bin/tmux": Specifies the full path to the Tmux executable provided by Nix.
+   * "new-session": Creates a new Tmux session if one doesn't exist.
+   * "-A": Attaches to a session if it already exists.
+   * "-D": If attaching to an existing session, and it's already attached elsewhere, detach the other clients.
+   * "-s" "main": Names the session "main". This is useful if you want to explicitly connect to it later or have multiple sessions.
+
+  2. Apply your NixOS configuration:
+
+  After saving the changes to your .nix file, apply them:
+
+   1 nixos-rebuild switch # If in configuration.nix
+   2 # OR
+   3 home-manager switch # If in home.nix
+
+  3. Tmux Shortcuts for Tabs (Windows):
+
+  Once Alacritty launches, you'll be inside a Tmux session. Here are the basic commands to manage "tabs" (which Tmux calls "windows"):
+
+   * Default Prefix: The default Tmux prefix key is Ctrl+b. You press this first, then release it, then press the next key.
+   * New Window (Tab): Ctrl+b then c
+   * Next Window: Ctrl+b then n
+   * Previous Window: Ctrl+b then p
+   * List Windows: Ctrl+b then w
+   * Rename Current Window: Ctrl+b then , (comma)
+   * Detach from Session: Ctrl+b then d (your Alacritty terminal will close, but the Tmux session and its windows will keep running in the background)
+   * Reattach to Session: Open Alacritty again, and it should automatically reattach to your "main" session. If not, you can manually reattach with tmux attach -t main.
+
+  Let me know if you'd like to proceed with modifying your NixOS configuration file, or if you have any other questions.
